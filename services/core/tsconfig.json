@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "noEmit": true,
+  },
+  "references": [
+    {
+      "path": "../../packages/cdk-configuration/tsconfig.build.json",
+    },
+  ],
+  "exclude": ["./cdk.out"],
+  "include": ["./**/*.ts"],
+  "ts-node": {
+    "transpileOnly": true,
+  },
+}

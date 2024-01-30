@@ -3,7 +3,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "explicit"
     },
     "search.exclude": {
       "**/coverage": true,
@@ -70,6 +70,10 @@
     {
       "path": "packages/cdk-configuration",
       "name": "cdk configuration [library]"
+    },
+    {
+      "path": "services/core",
+      "name": "core [service]"
     }
   ]
 }

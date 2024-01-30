@@ -4,6 +4,9 @@
   "references": [
     {
       "path": "./packages/cdk-configuration/tsconfig.build.json"
+    },
+    {
+      "path": "./services/core/tsconfig.json"
     }
   ]
 }
