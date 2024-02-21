@@ -1,9 +1,10 @@
 import express from 'express';
+import morgan from 'morgan';
+
+import { router } from './router';
 
 const app = express();
-
-app.get('/hello', (_req, res) => {
-  res.json({ message: 'hello world' });
-});
+app.use(morgan('dev'));
+app.use('/express', router);
 
 export { app };

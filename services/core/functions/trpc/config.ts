@@ -3,6 +3,7 @@ import { HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
 import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
 import { sharedLambdaEsbuildConfig } from '@lambdalith/cdk-configuration';
@@ -22,10 +23,11 @@ export class TrpcLambda extends Construct {
       architecture: Architecture.ARM_64,
       awsSdkConnectionReuse: true,
       bundling: sharedLambdaEsbuildConfig,
+      logRetention: RetentionDays.ONE_WEEK,
     });
 
     httpApi.addRoutes({
-      path: 'trpc/{proxy+}',
+      path: '/trpc/{proxy+}',
       integration: new HttpLambdaIntegration(
         'TrpcProxyIntegration',
         this.trpcFunction,

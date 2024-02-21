@@ -8,15 +8,15 @@ import { Construct } from 'constructs';
 
 import { sharedLambdaEsbuildConfig } from '@lambdalith/cdk-configuration';
 
-type ExpressProps = { httpApi: HttpApi };
+type FastifyProps = { httpApi: HttpApi };
 
-export class ExpressLambda extends Construct {
-  public expressFunction: NodejsFunction;
+export class FastifyLambda extends Construct {
+  public fastifyFunction: NodejsFunction;
 
-  constructor(scope: Construct, id: string, { httpApi }: ExpressProps) {
+  constructor(scope: Construct, id: string, { httpApi }: FastifyProps) {
     super(scope, id);
 
-    this.expressFunction = new NodejsFunction(this, 'Lambda', {
+    this.fastifyFunction = new NodejsFunction(this, 'Lambda', {
       entry: getCdkHandlerPath(__dirname),
       handler: 'main',
       runtime: Runtime.NODEJS_18_X,
@@ -27,10 +27,10 @@ export class ExpressLambda extends Construct {
     });
 
     httpApi.addRoutes({
-      path: '/express/{proxy+}',
+      path: '/fastify/{proxy+}',
       integration: new HttpLambdaIntegration(
-        'ExpressProxyIntegration',
-        this.expressFunction,
+        'FastifyProxyIntegration',
+        this.fastifyFunction,
       ),
     });
   }

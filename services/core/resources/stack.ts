@@ -1,10 +1,15 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Construct } from 'constructs';
 
 import { getAppStage } from '@lambdalith/cdk-configuration';
 
-import { ExpressLambda, TrpcLambda } from 'functions/config';
+import {
+  ExpressLambda,
+  FastifyLambda,
+  HonoLambda,
+  TrpcLambda,
+} from 'functions/config';
 
 export class CoreStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
@@ -19,5 +24,9 @@ export class CoreStack extends Stack {
 
     new ExpressLambda(this, 'ExpressProxy', { httpApi: coreApi });
     new TrpcLambda(this, 'TrpcProxy', { httpApi: coreApi });
+    new FastifyLambda(this, 'FastifyProxy', { httpApi: coreApi });
+    new HonoLambda(this, 'HonoProxy', { httpApi: coreApi });
+
+    new CfnOutput(this, 'CoreApiUrl', { value: coreApi.apiEndpoint });
   }
 }

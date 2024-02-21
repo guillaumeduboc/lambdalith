@@ -8,15 +8,15 @@ import { Construct } from 'constructs';
 
 import { sharedLambdaEsbuildConfig } from '@lambdalith/cdk-configuration';
 
-type ExpressProps = { httpApi: HttpApi };
+type HonoProps = { httpApi: HttpApi };
 
-export class ExpressLambda extends Construct {
-  public expressFunction: NodejsFunction;
+export class HonoLambda extends Construct {
+  public honoFunction: NodejsFunction;
 
-  constructor(scope: Construct, id: string, { httpApi }: ExpressProps) {
+  constructor(scope: Construct, id: string, { httpApi }: HonoProps) {
     super(scope, id);
 
-    this.expressFunction = new NodejsFunction(this, 'Lambda', {
+    this.honoFunction = new NodejsFunction(this, 'Lambda', {
       entry: getCdkHandlerPath(__dirname),
       handler: 'main',
       runtime: Runtime.NODEJS_18_X,
@@ -27,10 +27,10 @@ export class ExpressLambda extends Construct {
     });
 
     httpApi.addRoutes({
-      path: '/express/{proxy+}',
+      path: '/hono/{proxy+}',
       integration: new HttpLambdaIntegration(
-        'ExpressProxyIntegration',
-        this.expressFunction,
+        'HonoProxyIntegration',
+        this.honoFunction,
       ),
     });
   }
