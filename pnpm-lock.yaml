@@ -162,6 +162,9 @@ importers:
       fastify:
         specifier: ^4.26.1
         version: 4.26.1
+      fastify-type-provider-zod:
+        specifier: ^1.1.9
+        version: 1.1.9(fastify@4.26.1)(zod@3.22.4)
       hono:
         specifier: ^4.0.4
         version: 4.0.4
@@ -6429,6 +6432,17 @@ packages:
       strnum: 1.0.5
     dev: false
 
+  /fastify-type-provider-zod@1.1.9(fastify@4.26.1)(zod@3.22.4):
+    resolution: {integrity: sha512-Ztnu1ZWJEKJouZvdTyfgjuVqS+A4JLoCbWBvFqFhfnrg6YQvEvW+5cJvP98kNbuV5gjfpWmHSOTi3BpkidJPQg==}
+    peerDependencies:
+      fastify: ^4.0.0
+      zod: ^3.14.2
+    dependencies:
+      fastify: 4.26.1
+      zod: 3.22.4
+      zod-to-json-schema: 3.22.4(zod@3.22.4)
+    dev: false
+
   /fastify@4.26.1:
     resolution: {integrity: sha512-tznA/G55dsxzM5XChBfcvVSloG2ejeeotfPPJSFaWmHyCDVGMpvf3nRNbsCb/JTBF9RmQFBfuujWt3Nphjesng==}
     dependencies:
@@ -10267,6 +10281,14 @@ packages:
     dependencies:
       '@types/express': 4.17.21
       express: 4.18.2
+      zod: 3.22.4
+    dev: false
+
+  /zod-to-json-schema@3.22.4(zod@3.22.4):
+    resolution: {integrity: sha512-2Ed5dJ+n/O3cU383xSY28cuVi0BCQhF8nYqWU5paEpl7fVdqdAmiLdqLyfblbNdfOFwFfi/mqU4O1pwc60iBhQ==}
+    peerDependencies:
+      zod: ^3.22.4
+    dependencies:
       zod: 3.22.4
     dev: false
 
