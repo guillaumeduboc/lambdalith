@@ -45,6 +45,7 @@
     "fastify-type-provider-zod": "^1.1.9",
     "hono": "^4.0.4",
     "morgan": "^1.10.0",
+    "path-to-regexp": "^6.2.1",
     "zod": "^3.22.4",
     "zod-express-middleware": "^1.4.0"
   },
@@ -57,6 +58,7 @@
     "@vitest/coverage-v8": "^0.34.6",
     "aws-cdk": "2.114.1",
     "aws-cdk-lib": "2.114.1",
+    "aws-lambda": "^1.0.7",
     "constructs": "10.3.0",
     "dependency-cruiser": "^16.1.0",
     "esbuild": "^0.20.0",
