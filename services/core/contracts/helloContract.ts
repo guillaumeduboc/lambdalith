@@ -4,9 +4,9 @@ import {
 } from '@swarmion/serverless-contracts';
 
 // move this contract to a shared library once you need to use it outside this service
-export const healthContract = new ApiGatewayContract({
-  id: 'core-health',
-  path: '/health',
+export const helloContract = new ApiGatewayContract({
+  id: 'core-hello',
+  path: '/swarmion/hello',
   method: 'GET',
   integrationType: 'restApi',
   outputSchemas: {
