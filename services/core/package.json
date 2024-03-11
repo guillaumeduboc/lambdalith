@@ -29,6 +29,7 @@
     "@aws-sdk/lib-dynamodb": "^3.518.0",
     "@codegenie/serverless-express": "^4.13.0",
     "@fastify/aws-lambda": "^4.0.0",
+    "@hono/zod-validator": "^0.2.0",
     "@lambdalith/cdk-configuration": "workspace:^",
     "@middy/core": "^5.2.3",
     "@middy/http-cors": "^5.2.3",
