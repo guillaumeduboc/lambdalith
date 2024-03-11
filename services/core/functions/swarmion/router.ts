@@ -7,12 +7,14 @@ import {
   getPokemonContract,
   pokemonListContract,
 } from 'contracts/pokemonContract';
+import { testContract } from 'contracts/testContract';
 import {
   createPokemon,
   deletePokemon,
   getPokemonById,
   getPokemonList,
 } from 'services/dynamodb';
+import { fibonacci } from 'services/fibonacci';
 
 import { SwarmionRouter } from './swarmionRouter';
 
@@ -53,6 +55,15 @@ router.add(createPokemonContract)(async ({ body: pokemon }) => {
   await createPokemon(pokemonInfo);
 
   return { statusCode: HttpStatusCodes.CREATED, body: pokemonInfo };
+});
+
+router.add(testContract)(async () => {
+  return Promise.resolve({
+    statusCode: HttpStatusCodes.OK,
+    body: {
+      result: fibonacci(30),
+    },
+  });
 });
 
 export { router };

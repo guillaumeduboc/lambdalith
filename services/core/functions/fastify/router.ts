@@ -8,6 +8,7 @@ import {
   getPokemonById,
   getPokemonList,
 } from 'services/dynamodb';
+import { fibonacci } from 'services/fibonacci';
 
 export const routes: FastifyPluginCallback = (_fastify, _opts, done): void => {
   const fastify = _fastify.withTypeProvider<ZodTypeProvider>();
@@ -64,5 +65,10 @@ export const routes: FastifyPluginCallback = (_fastify, _opts, done): void => {
     },
   );
 
+  fastify.get('/test', () => {
+    return {
+      result: fibonacci(30),
+    };
+  });
   done();
 };

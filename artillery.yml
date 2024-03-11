@@ -1,0 +1,40 @@
+config:
+  target: '{{ $env.API_URL }}'
+  phases:
+    - duration: 120
+      arrivalRate: 10
+      rampTo: 60
+      name: Ramp up
+    - duration: 120
+      arrivalRate: 60
+      name: Full Load
+    - duration: 120
+      arrivalRate: 60
+      rampTo: 10
+      name: Ramp down
+
+scenarios:
+  - name: 'swarmion'
+    flow:
+      - get:
+          url: '/swarmion/test'
+
+  - name: 'hono'
+    flow:
+      - get:
+          url: '/hono/test'
+
+  - name: 'trpc'
+    flow:
+      - get:
+          url: '/trpc/test'
+
+  - name: 'fastify'
+    flow:
+      - get:
+          url: '/fastify/test'
+
+  - name: 'express'
+    flow:
+      - get:
+          url: '/express/test'

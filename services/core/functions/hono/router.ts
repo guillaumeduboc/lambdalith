@@ -8,6 +8,7 @@ import {
   getPokemonById,
   getPokemonList,
 } from 'services/dynamodb';
+import { fibonacci } from 'services/fibonacci';
 
 const router = new Hono();
 
@@ -55,5 +56,11 @@ router.post(
     return c.json(pokemonInfo, 201);
   },
 );
+
+router.get('/test', c => {
+  return c.json({
+    result: fibonacci(30),
+  });
+});
 
 export { router };

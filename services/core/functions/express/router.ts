@@ -9,6 +9,7 @@ import {
   getPokemonById,
   getPokemonList,
 } from 'services/dynamodb';
+import { fibonacci } from 'services/fibonacci';
 
 const router = Router();
 router.get('/hello', (_req, res) => {
@@ -63,5 +64,11 @@ router.post(
     res.status(201).json(pokemonInfo);
   }),
 );
+
+router.get('/test', (_req, res) => {
+  res.json({
+    result: fibonacci(30),
+  });
+});
 
 export { router };
