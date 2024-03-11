@@ -1,6 +1,7 @@
 import { getCdkHandlerPath } from '@swarmion/serverless-helpers';
 import { HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
 import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
+import { TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -8,12 +9,14 @@ import { Construct } from 'constructs';
 
 import { sharedLambdaEsbuildConfig } from '@lambdalith/cdk-configuration';
 
-type ExpressProps = { httpApi: HttpApi };
+import { TABLE_NAME_ENV_VAR } from 'shared/constants';
+
+type ExpressProps = { httpApi: HttpApi; table: TableV2 };
 
 export class ExpressLambda extends Construct {
   public expressFunction: NodejsFunction;
 
-  constructor(scope: Construct, id: string, { httpApi }: ExpressProps) {
+  constructor(scope: Construct, id: string, { httpApi, table }: ExpressProps) {
     super(scope, id);
 
     this.expressFunction = new NodejsFunction(this, 'Lambda', {
@@ -24,6 +27,9 @@ export class ExpressLambda extends Construct {
       awsSdkConnectionReuse: true,
       bundling: sharedLambdaEsbuildConfig,
       logRetention: RetentionDays.ONE_WEEK,
+      environment: {
+        [TABLE_NAME_ENV_VAR]: table.tableName,
+      },
     });
 
     httpApi.addRoutes({
@@ -33,5 +39,7 @@ export class ExpressLambda extends Construct {
         this.expressFunction,
       ),
     });
+
+    table.grantReadWriteData(this.expressFunction);
   }
 }

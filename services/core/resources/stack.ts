@@ -23,13 +23,13 @@ export class CoreStack extends Stack {
       description: `Core API - ${stage}`,
     });
 
-    new TableV2(this, 'Table', {
+    const table = new TableV2(this, 'Table', {
       partitionKey: { name: 'pk', type: AttributeType.STRING },
       sortKey: { name: 'sk', type: AttributeType.NUMBER },
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    new ExpressLambda(this, 'ExpressProxy', { httpApi: coreApi });
+    new ExpressLambda(this, 'ExpressProxy', { httpApi: coreApi, table });
     new TrpcLambda(this, 'TrpcProxy', { httpApi: coreApi });
     new FastifyLambda(this, 'FastifyProxy', { httpApi: coreApi });
     new HonoLambda(this, 'HonoProxy', { httpApi: coreApi });
