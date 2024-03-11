@@ -30,7 +30,7 @@ export class CoreStack extends Stack {
     });
 
     new ExpressLambda(this, 'ExpressProxy', { httpApi: coreApi, table });
-    new TrpcLambda(this, 'TrpcProxy', { httpApi: coreApi });
+    new TrpcLambda(this, 'TrpcProxy', { httpApi: coreApi, table });
     new FastifyLambda(this, 'FastifyProxy', { httpApi: coreApi, table });
     new HonoLambda(this, 'HonoProxy', { httpApi: coreApi, table });
 
