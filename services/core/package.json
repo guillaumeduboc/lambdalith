@@ -25,6 +25,8 @@
     "test-unit": "vitest run --coverage --passWithNoTests"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.518.0",
+    "@aws-sdk/lib-dynamodb": "^3.518.0",
     "@codegenie/serverless-express": "^4.13.0",
     "@fastify/aws-lambda": "^4.0.0",
     "@lambdalith/cdk-configuration": "workspace:^",
