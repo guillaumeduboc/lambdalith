@@ -13,7 +13,8 @@ import type {
   QueryStringParametersType,
 } from '@swarmion/serverless-contracts/contracts/apiGateway/types';
 import Ajv from 'ajv';
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import get from 'lodash/get';
 import { match } from 'path-to-regexp';
 
 type GetHandler<Contract extends GenericApiGatewayContract> =
@@ -55,11 +56,10 @@ export class SwarmionRouter {
   }
 
   match(
-    method: string,
-    path: string,
+    event: APIGatewayProxyEventV2,
   ): [APIGatewayProxyHandlerV2, Record<string, string>] | null {
     for (const [contract, handler] of this.routes) {
-      const routerMatch = matchContract(contract, method, path);
+      const routerMatch = matchApiGatewayContract(contract, event);
       if (routerMatch === false) {
         continue;
       }
@@ -75,15 +75,12 @@ export const handle = (
   router: SwarmionRouter,
   options?: { logger?: boolean },
 ): APIGatewayProxyHandlerV2<unknown> => {
-  return async (event, context, callback) => {
+  return async (event, ...otherArgs) => {
     if (options?.logger === true) {
       console.log('event', event);
     }
 
-    const matchedRoute = router.match(
-      event.requestContext.http.method,
-      event.rawPath,
-    );
+    const matchedRoute = router.match(event);
 
     if (matchedRoute === null) {
       return Promise.resolve({
@@ -95,26 +92,36 @@ export const handle = (
     const [handler, params] = matchedRoute;
     event.pathParameters = params;
 
-    return handler(event, context, callback);
+    return handler(event, ...otherArgs);
   };
 };
 
-const matchContract = (
+const matchApiGatewayContract = (
   contract: GenericApiGatewayContract,
-  method: string,
-  path: string,
+  event: APIGatewayProxyEventV2,
 ): Record<string, string> | false => {
-  if (method !== contract.method) {
+  if (!isValidApiGatewayEvent(event)) {
+    return false;
+  }
+
+  if (event.requestContext.http.method !== contract.method) {
     return false;
   }
 
   const urlMatch = match<Record<string, string>>(
     contract.path.replaceAll('{', ':').replaceAll('}', ''),
-  )(path);
+  )(event.rawPath);
 
   if (urlMatch === false) {
     return false;
   }
 
   return urlMatch.params;
+};
+
+const isValidApiGatewayEvent = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  event: any,
+): event is APIGatewayProxyEventV2 => {
+  return get(event, 'requestContext.http') !== undefined;
 };

@@ -61,7 +61,7 @@ router.add(testContract)(async () => {
   return Promise.resolve({
     statusCode: HttpStatusCodes.OK,
     body: {
-      result: fibonacci(30),
+      result: fibonacci(10),
     },
   });
 });
