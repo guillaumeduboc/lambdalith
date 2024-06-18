@@ -9,6 +9,7 @@ import {
   ExpressLambda,
   FastifyLambda,
   HonoLambda,
+  SwarmionLambda,
   TrpcLambda,
 } from 'functions/config';
 
@@ -33,6 +34,7 @@ export class CoreStack extends Stack {
     new TrpcLambda(this, 'TrpcProxy', { httpApi: coreApi, table });
     new FastifyLambda(this, 'FastifyProxy', { httpApi: coreApi, table });
     new HonoLambda(this, 'HonoProxy', { httpApi: coreApi, table });
+    new SwarmionLambda(this, 'SwarmionProxy', { httpApi: coreApi, table });
 
     new CfnOutput(this, 'CoreApiUrl', { value: coreApi.apiEndpoint });
   }
